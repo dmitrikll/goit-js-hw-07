@@ -30,11 +30,12 @@ const ClickOnContainer = (event) => {
 
   if (event.target.classList.contains("gallery")) return;
     const source = event.target.dataset.source;
-    
+  
   const instance = basicLightbox.create(`
     <img src="${source}"width="800" height="600">`);
 
   instance.show();
+
 };
 
 galleryContainer.addEventListener("click", ClickOnContainer);
