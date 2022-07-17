@@ -33,10 +33,8 @@ const ClickOnContainer = (event) => {
   
   const instance = basicLightbox.create(`
     <img src="${source}"width="800" height="600">`);
-
-  instance.show();
-
+  
+    instance.show();
 };
 
 galleryContainer.addEventListener("click", ClickOnContainer);
-
