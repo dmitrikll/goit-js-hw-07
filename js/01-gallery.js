@@ -5,8 +5,11 @@ import { galleryItems } from './gallery-items.js';
 
 const galleryContainer = document.querySelector(".gallery");
 const galleryMarkup = createGalleryMarkup(galleryItems);
+let instance;
 
 galleryContainer.insertAdjacentHTML("beforeend", galleryMarkup);
+
+galleryContainer.addEventListener("click", ClickOnContainer);
 
 function createGalleryMarkup() {
   return galleryItems
@@ -25,16 +28,34 @@ function createGalleryMarkup() {
     .join("");
 }
 
-const ClickOnContainer = (event) => {
+function ClickOnContainer(event) {
   event.preventDefault();
 
-  if (event.target.classList.contains("gallery")) return;
+  if (event.target.classList.contains("gallery__image")) {
+
     const source = event.target.dataset.source;
   
-  const instance = basicLightbox.create(`
-    <img src="${source}"width="800" height="600">`);
-  
+    instance = basicLightbox.create(`
+    <img src="${source}"width="800" height="600">`,
+      {
+        onShow: () =>
+          galleryContainer.addEventListener(
+            'keydown',
+            onEscClose,
+          ),
+        onClose: () =>
+          galleryContainer.removeEventListener(
+            'keydown',
+            onEscClose,
+          ),
+      }
+  );
     instance.show();
+  };
 };
 
-galleryContainer.addEventListener("click", ClickOnContainer);
+function onEscClose(event) {
+    if (event.code === 'Escape') {
+      instance.close();
+  };
+};
